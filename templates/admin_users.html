@@ -1,0 +1,104 @@
+{% extends "admin_base.html" %}
+
+{% block content %}
+<head>
+    <title>Admin Users</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        .table-container {
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <br>
+    <h1 class="text-center">Admin Users</h1>
+    <p class="text-center">All changes made are permanent and the user will be notified accordingly.</p>
+
+    <div class="container my-5">
+        <div class="table-container">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>UserID</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td>{{ user.UserID }}</td>
+                            <td>{{ user.Username }}</td>
+                            <td>{{ user.Email }}</td>
+                            <td>
+                                <button type="button" class="btn btn-danger" onclick="confirmDelete({{ user.UserID }})">Delete</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this user?
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger" data-dismiss="modal" style="background-color: grey;">Cancel</button>
+                    <form id="deleteForm" method="post">
+                        <button type="submit" class="btn btn-danger" style="background-color: red;">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function confirmDelete(userId) {
+            const deleteForm = document.getElementById('deleteForm');
+            deleteForm.action = '/admin/delete_user/' + userId;
+            $('#deleteModal').modal('show');
+        }
+    </script>
+
+
+
+    <style>
+        .btn-1 {
+            background-color: #4CAF50; /* Green color */
+            color: white; /* Text color */
+            border: none; /* No border */
+            padding: 10px 20px; /* Padding around text */
+            text-align: center; /* Center text */
+            text-decoration: none; /* No underline */
+            display: inline-block; /* Line up with other inline or inline-block elements */
+            font-size: 16px; /* Text size */
+            cursor: pointer; /* Pointer cursor on hover */
+            border-radius: 5px; /* Rounded corners */
+        }
+        
+        .btn-1:hover {
+            background-color: #3e8e41; /* Darker shade of green */
+            color: white; /* Text color */
+    
+        }
+    </style>
+</body>
+{% endblock %}

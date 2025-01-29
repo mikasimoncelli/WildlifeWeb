@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Gallery</h1>
+
+    <div class="search-filter-bar mb-4">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i class="fa fa-search"></i></span>
+            </div>
+            <input type="text" class="form-control" id="searchInput" placeholder="Search for species..." onkeyup="searchGallery()" aria-describedby="basic-addon1">
+        </div>
+        <select id="sortSelect" class="form-control mt-2" onchange="sortGallery()">
+            <option value="og" selected>Sort by</option>
+            <option value="date">Date Added</option>
+            <option value="likes">Like Count</option>
+        </select>
+        
+       
+        <select id="seasonFilter" class="form-control" onchange="updateGallery()">
+            <option value="all" {{ 'selected' if season == 'all' else '' }}>All Seasons</option>
+            <option value="Spring" {{ 'selected' if season == 'Spring' else '' }}>Spring</option>
+            <option value="Summer" {{ 'selected' if season == 'Summer' else '' }}>Summer</option>
+            <option value="Autumn" {{ 'selected' if season == 'Autumn' else '' }}>Autumn</option>
+            <option value="Winter" {{ 'selected' if season == 'Winter' else '' }}>Winter</option>
+        </select>
+        
+        <button class="btn btn-outline-secondary mt-2" onclick="resetGallery()">Reset</button>
+    </div>
+
+    <div class="row" id="imageGallery">
+        {% for image in images %}
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4 image-card" data-name="{{ image.name | lower }}" data-date="{{ image.date_added }}" data-likes="{{ image.likes }}">
+            <div class="card h-100">
+                <a href="{{ url_for('image_details', image_path=image.url) }}">
+                    <img src="{{ image.url }}" alt="{{ image.alt }}" class="card-img-top img-fit">
+            
+                <div class="card-body">
+                    <h5 class="card-title">{{ image.name }}</h5>
+                    <p class="card-text">{{ image.scientific_name }}</p>
+                </div>
+            </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+function searchGallery() {
+    let input = document.getElementById('searchInput').value.toLowerCase();
+    let imageCards = document.querySelectorAll('.image-card');
+    imageCards.forEach(card => {
+        let name = card.getAttribute('data-name');
+        card.style.display = name.includes(input) ? '' : 'none';
+    });
+}
+
+function sortGallery() {
+    var selectElement = document.getElementById('sortSelect');
+    var sortValue = selectElement.value;
+
+    var galleryItems = document.querySelectorAll('.image-card');
+    var itemsArray = Array.from(galleryItems);
+
+    if (sortValue === 'date') {
+        itemsArray.sort((a, b) => new Date(b.dataset.date) - new Date(a.dataset.date));
+    } else if (sortValue === 'likes') {
+        itemsArray.sort((a, b) => parseInt(b.dataset.likes, 10) - parseInt(a.dataset.likes, 10));
+    }
+
+    var container = document.querySelector('#imageGallery');
+    itemsArray.forEach(item => container.appendChild(item));
+}
+
+
+function filterGallery() {
+    let filterValue = document.getElementById('filterSelect').value;
+    let imageCards = document.querySelectorAll('.image-card');
+    imageCards.forEach(card => {
+        let category = card.getAttribute('data-category');
+        card.style.display = filterValue === 'all' || category === filterValue ? '' : 'none';
+    });
+}
+
+function updateGallery() {
+    const season = document.getElementById('seasonFilter').value;
+    window.location.href = `{{ url_for('discover_gallery') }}?season=${season}`;
+}
+
+function resetGallery() {
+    document.getElementById('sortSelect').value = 'og';
+    document.getElementById('seasonFilter').value = 'all';
+    document.getElementById('searchInput').value = '';
+
+
+    window.location.href = `{{ url_for('discover_gallery') }}`;
+}
+
+</script>
+
+<style>
+.img-fit {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+a {
+    color: inherit; /* Use the color of its parent element */
+    text-decoration: none; /* Remove underline */
+}
+
+#imageGallery a:hover {
+    color: inherit; /* Use the color of its parent element */
+    text-decoration: none; /* Remove underline */
+}
+
+</style>
+{% endblock %}

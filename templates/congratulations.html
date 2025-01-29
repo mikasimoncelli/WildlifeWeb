@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="congratulations-container container mt-5">
+    <div class="text-center">
+        <h1>Congratulations, your post has been made!</h1>
+        <p class="lead">Your sighting has been successfully uploaded and confirmed.</p>
+    </div>
+    <div class="text-center mt-4">
+        <h2>{{ common_name }} <i>
+            {% if common_name != scientific_name %}
+                ({{ scientific_name }})
+            {% endif %}
+        </i> </h2>
+
+        <img src="{{ image_path }}" alt="Uploaded Image" class="img-fluid rounded">
+    </div>
+    <div class="text-center mt-4">
+        <a href="{{ url_for('sightings_feed') }}" class="btn btn-1">View Your Post</a>
+    </div>
+    <div class="share-options text-center mt-4">
+        <p class="lead">Do you want to share this to:</p>
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ image_path }}" target="_blank" class="btn btn-danger btn-lg m-2" style="background-color: #3b5998; color: white; border: 1px solid #3b5998; 
+        ">
+            <i class="fab fa-facebook-f" style="color: white;"></i> Share on Facebook
+        </a>
+        <a href="https://www.instagram.com/?url={{ image_path }}&quote={{ common_name }} (%20<i>{{ scientific_name }}</i>)%20-%20{{ description }}" target="_blank" class="btn btn-danger btn-lg m-2" style="background-color: #E4405F; color: white;">
+            <i class="fab fa-instagram" style="color: white;"></i> Share on Instagram
+        </a>
+        
+    </div>
+</div>
+{% endblock %}

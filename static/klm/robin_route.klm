@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Robins Walk</name>
+    <Placemark>
+      <name>Walk Path</name>
+      <LineString>
+        <coordinates>
+          -2.6208922,51.4725195,0
+          -2.6292177,51.4706215,0
+          -2.6269432,51.4686165,0
+          -2.6289173,51.4661836,0
+          -2.6279303,51.4647132,0
+          -2.6262137,51.4634566,0
+          -2.6214071,51.4658094,0
+          -2.6223084,51.4677343,0
+          -2.6187035,51.469766,0
+          -2.6208922,51.4725195,0
+        </coordinates>
+      </LineString>
+    </Placemark>
+  </Document>
+</kml>

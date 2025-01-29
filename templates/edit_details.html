@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .profile-picture {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-top: 10px;
+    }
+    .btn-primary, .btn-file {
+        background-color: #4CAF50; /* Green color */
+        color: white; /* Text color */
+        border: none; /* No border */
+        padding: 10px 20px; /* Padding around text */
+        text-align: center; /* Center text */
+        text-decoration: none; /* No underline */
+        display: inline-block; /* Line up with other inline or inline-block elements */
+        font-size: 16px; /* Text size */
+        cursor: pointer; /* Pointer cursor on hover */
+        border-radius: 5px; /* Rounded corners */
+    }
+    .btn-primary:hover, .btn-file:hover {
+        background-color: #3e8e41; /* Darker shade of green */
+        color: white; /* Text color */
+    }
+    .btn-file {
+        position: relative;
+        overflow: hidden;
+        margin-top: 10px;
+    }
+    .btn-file input[type="file"] {
+        position: absolute;
+        top: 0;
+        right: 0;
+        min-width: 100%;
+        min-height: 100%;
+        font-size: 100px;
+        text-align: right;
+        filter: alpha(opacity=0);
+        opacity: 0;
+        outline: none;
+        background: white;
+        cursor: inherit;
+        display: block;
+    }
+</style>
+<div class="container mt-4">
+    <h1>Edit Your Details</h1>
+    <form method="POST" action="{{ url_for('edit_details') }}" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ user_details['Email'] }}" required>
+        </div>
+        <div class="form-group">
+            <label for="first_name">First Name</label>
+            <input type="text" class="form-control" id="first_name" name="first_name" value="{{ user_details['FirstName'] }}" required>
+        </div>
+        <div class="form-group">
+            <label for="surname">Surname</label>
+            <input type="text" class="form-control" id="surname" name="surname" value="{{ user_details['Surname'] }}" required>
+        </div>
+        <div class="form-group">
+            <label for="profile_picture">Profile Picture</label>
+            {% if user_details['ProfilePicture'] %}
+            <img src="{{ url_for('static', filename='profilepictures/' ~ user_details['ProfilePicture']) }}" alt="Profile Picture" class="profile-picture" id="profile-picture-preview">
+            <div style="color: white; width: 200px;" class="btn btn-file">
+                Edit Picture
+                <input type="file" id="profile_picture" name="profile_picture" style="color: white; width: 200px;" onchange="previewProfilePicture(event)"><br>
+            </div>
+            <br>
+            {% else %}
+            <div style="color: white; width: 200px;" class="btn btn-file">
+                Upload Picture
+                <input type="file" id="profile_picture" name="profile_picture" style="color: white; width: 200px;" onchange="previewProfilePicture(event)">
+            </div>
+            {% endif %}
+        </div>
+        <button type="submit" class="btn btn-primary" style="color: white; width: 200px;">Update</button>
+    </form>
+</div>
+
+<script>
+    function previewProfilePicture(event) {
+        const input = event.target;
+        const file = input.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('profile-picture-preview');
+                if (!preview) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.alt = 'Profile Picture';
+                    img.className = 'profile-picture';
+                    img.id = 'profile-picture-preview';
+                    input.closest('.form-group').appendChild(img);
+                } else {
+                    preview.src = e.target.result;
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+{% endblock %}

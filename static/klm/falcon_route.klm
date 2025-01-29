@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Falcon Walk</name>
+    <Placemark>
+      <name>Walk Path</name>
+      <LineString>
+        <coordinates>
+          -2.6332849,51.4619997,0
+          -2.6348298,51.4667321,0
+          -2.6417392,51.4687104,0
+          -2.6434129,51.4659567,0
+          -2.6435416,51.4633901,0
+          -2.6332849,51.4619997,0
+        </coordinates>
+      </LineString>
+    </Placemark>
+  </Document>
+</kml>

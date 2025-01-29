@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card text-center shadow-lg p-3 mb-5 bg-white rounded">
+        <div class="card-body">
+            <h2 class="card-title">Explore Global Wildlife Sightings</h2>
+            <p class="card-text">Click on any marker to get detailed information about the sighting and other species. Use "Find out more" to learn about the species or "See other sightings" to explore more sightings of the same species.</p>
+            <div class="search-container mt-3">
+                <p>Search for location:</p>
+                <input id="placeSearch" type="text" placeholder="Search for places..." style="margin-bottom: 10px;" class="form-control">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="map-container">
+        <div id="map"></div>
+    </div>
+</div>
+
+<script>
+    var sightings = {{ sightings_json | safe }};
+    var focusId = {{ focus_id | default('null') }};
+    var map;
+    var autocomplete;
+
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 7,
+            center: { lat: 51.4545, lng: -2.5879 }
+        });
+
+        sightings.forEach(function(sighting) {
+            var marker = new google.maps.Marker({
+                position: { lat: parseFloat(sighting.Latitude), lng: parseFloat(sighting.Longitude) },
+                map: map,
+                title: sighting.CommonName
+            });
+
+            var contentString = '<div id="content">' +
+                '<h1>' + sighting.CommonName + '</h1>' +
+                '<p><strong>Spotted by:</strong> ' + sighting.Username + '</p>' +
+                '<p><strong>Date:</strong> ' + sighting.Timestamp + '</p>' +
+                (sighting.ImagePath ? '<img src="/' + sighting.ImagePath + '" alt="Sighting image" style="width:150px;" class="img-fluid mt-2">' : '') +
+                '<p>' + sighting.Description + '</p>' +
+                '<button class="btn btn-primary mr-2" onclick="seeOtherSightings(' + sighting.SpeciesID + ')">See Other Sightings</button>' +
+                '<button class="btn btn-secondary" onclick="findOutMore(' + sighting.SpeciesID + ')">Find Out More</button>' +
+                '</div>';
+
+            var infowindow = new google.maps.InfoWindow({
+                content: contentString
+            });
+
+            marker.addListener('click', function() {
+                infowindow.open(map, marker);
+            });
+
+            if (sighting.SightingID === focusId) {
+                map.setZoom(15);
+                map.setCenter(marker.getPosition());
+                infowindow.open(map, marker);
+            }
+        });
+
+        var input = document.getElementById('placeSearch');
+        autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.bindTo('bounds', map);
+
+        autocomplete.addListener('place_changed', function() {
+            var place = autocomplete.getPlace();
+            if (!place.geometry) {
+                alert("No details available for input: '" + place.name + "'");
+                return;
+            }
+
+            if (place.geometry.viewport) {
+                map.fitBounds(place.geometry.viewport);
+            } else {
+                map.setCenter(place.geometry.location);
+                map.setZoom(12);
+            }
+        });
+    }
+
+    function seeOtherSightings(speciesId) {
+        window.location.href = `/species_view?species_id=${speciesId}`;
+    }
+
+    function findOutMore(speciesId) {
+        fetch(`/more_info?focus_id=${speciesId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(data => {
+                window.location.href = `/more_info?focus_id=${speciesId}`;
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    }
+</script>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC1vhYZf5T6VR7JNAJNuda1LgjeP7VSw4&libraries=places&callback=initMap"></script>
+
+<style>
+    .map-container #map {
+        height: 80vh;
+        width: 100%;
+    }
+
+    .card-title {
+        font-size: 2rem;
+        color: #343a40;
+    }
+
+    .card-text {
+        font-size: 1.2rem;
+        color: #6c757d;
+    }
+
+    .btn {
+        margin-top: 10px;
+    }
+
+    .search-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #placeSearch {
+        max-width: 300px;
+    }
+</style>
+
+{% endblock %}

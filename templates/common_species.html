@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <h1>Most Common Species</h1>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Species Name</th>
+                <th>Sightings</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for species in species_list %}
+            <tr>
+                <td>{{ species.CommonName }} ({{ species.ScientificName }})</td>
+                <td>{{ species.sighting_count }}</td>
+                <td>
+                    <a href="{{ url_for('species_view', species_id=species.SpeciesID) }}" class="btn btn-1">View Sightings</a>
+                    <a href="{{ url_for('more_info', focus_id=species.SpeciesID) }}" class="btn btn-teal">Find Out More</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .btn-1 {
+        background-color: #4CAF50; /* Green color */
+        color: white; /* Text color */
+        border: none; /* No border */
+        padding: 10px 20px; /* Padding around text */
+        text-align: center; /* Center text */
+        text-decoration: none; /* No underline */
+        display: inline-block; /* Line up with other inline or inline-block elements */
+        font-size: 16px; /* Text size */
+        cursor: pointer; /* Pointer cursor on hover */
+        border-radius: 5px; /* Rounded corners */
+    }
+    
+    .btn-1:hover {
+        background-color: #3e8e41; /* Darker shade of green */
+        color: white; /* Text color */
+
+    }
+    .btn-teal:hover {
+        background-color: #006666; /* Darker shade of teal */
+        color: white; /* Text color */
+
+    }
+    
+    .btn-teal {
+        background-color: #008080; /* Teal color */
+        color: white; /* White text for contrast */
+        border: none; /* No border for a flat design */
+        padding: 10px 20px; /* Adequate padding for touch targets */
+        text-align: center; /* Center-aligned text */
+        text-decoration: none; /* No underline */
+        display: inline-block; /* Necessary for alignment with other elements */
+        font-size: 16px; /* Clear, legible font size */
+        cursor: pointer; /* Cursor indicates it's clickable */
+        border-radius: 5px; /* Rounded corners for a modern look */
+    }
+</style>
+
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends "admin_base.html" %}
+
+{% block content %}
+<br>
+<div class="report-form-container">
+  
+    <h1>Generate Reports</h1>
+    <form action="/admin/reports" method="post" class="report-form">
+        <div class="form-group">
+            <label for="report_type">Report Type:</label>
+            <select name="report_type" id="report_type" required>
+                <option value="sightings">Sightings</option>
+                <option value="species">Species</option>
+                <option value="users">Users</option>
+                <option value="locations">Locations</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="start_date">Start Date:</label>
+            <input type="text" name="start_date" id="start_date" required>
+        </div>
+        <div class="form-group">
+            <label for="end_date">End Date:</label>
+            <input type="text" name="end_date" id="end_date" required>
+        </div>
+        <button type="submit" class="btn btn-1">Generate Report</button>
+<br><br>
+        {% if error %}
+        <div class="error"> <h6 style="color: red;">Sorry! {{ error }}</h6></div>
+        {% endif %}
+    </form>
+
+</div>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+$(function() {
+    $("#start_date, #end_date").datepicker({
+        dateFormat: "yy-mm-dd" 
+    });
+});
+</script>
+<style>
+.report-form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+select, input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.btn-1 {
+    background-color: #4CAF50; /* Green color */
+    color: white; /* Text color */
+    border: none; /* No border */
+    padding: 10px 20px; /* Padding around text */
+    text-align: center; /* Center text */
+    text-decoration: none; /* No underline */
+    display: inline-block; /* Line up with other inline or inline-block elements */
+    font-size: 16px; /* Text size */
+    cursor: pointer; /* Pointer cursor on hover */
+    border-radius: 5px; /* Rounded corners */
+}
+
+.btn-1:hover {
+    background-color: #3e8e41; /* Darker shade of green */
+    color: white; /* Text color */
+
+}
+</style>
+{% endblock %}

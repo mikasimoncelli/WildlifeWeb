@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="center-container">
+    <div class="login-box">
+        <form action="/register" method="post">
+            <input type="text" name="first_name" placeholder="First Name" required>
+            <input type="text" name="last_name" placeholder="Last Name" required>
+            <input type="text" name="email" placeholder="Email" required>
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Register</button>
+            <br><br>
+            {% if error %}
+                <div class="error"> <h4 style="color: red;">Sorry! {{ error }}</h4></div>
+            {% endif %}
+        </form>
+    </div>
+</div>
+{% endblock %}

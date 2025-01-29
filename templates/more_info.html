@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>{{ species.CommonName }}</h1>
+    {% if species.CommonName != species.ScientificName %}
+    <h2>Scientific Name: {{ species.ScientificName }}</h2>
+    {% endif %}
+    <p>{{ species.Description }}</p>
+    <a href="{{ url_for('species_view', species_id=request.args.get('focus_id')) }}" class="btn btn-1">View Sightings</a>
+    <a href="{{ url_for('sightings_feed') }}" class="btn btn-1">Sightings Feed</a>
+    
+    <!-- Image Carousel -->
+    {% if images %}
+    <section id="image-carousel" class="splide" aria-label="Beautiful Images">
+        <div class="splide__track">
+            <ul class="splide__list">
+                {% for image in images %}
+                <li class="splide__slide">
+                    <img src="{{ image.url }}" alt="{{ image.alt }}">
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+    {% else %}
+    <p class="text-center">Sorry, we can't find any images for this species! Try a different one?</p>
+    {% endif %}
+    
+    <br>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        if (document.querySelector('.splide__list').children.length > 0) {
+            new Splide('#image-carousel', {
+                type: 'loop',     
+                gap: '0px',        
+                perPage: 1,        
+                focus: 'center',   
+                pagination: false, 
+                arrows: true       
+            }).mount();
+        }
+    });
+</script>
+
+<style>
+    .btn-1 {
+        background-color: #4CAF50; /* Green color */
+        color: white; /* Text color */
+        border: none; /* No border */
+        padding: 10px 20px; /* Padding around text */
+        text-align: center; /* Center text */
+        text-decoration: none; /* No underline */
+        display: inline-block; /* Line up with other inline or inline-block elements */
+        font-size: 16px; /* Text size */
+        cursor: pointer; /* Pointer cursor on hover */
+        border-radius: 5px; /* Rounded corners */
+    }
+
+    .btn-1:hover {
+        background-color: #3e8e41; /* Darker shade of green */
+        color: white; /* Text color */
+    }
+</style>
+{% endblock %}

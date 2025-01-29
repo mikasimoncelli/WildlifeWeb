@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="welcome-area" style="position: relative; text-align: center; color: white;">
+        <img src="{{ url_for('static', filename='owl.jpeg') }}" alt="Nature Image" style="width: 100%; border: 3px solid black;">
+
+        <div style="position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%);">
+            <div class="text-box" style="background: rgba(0, 0, 0, 0.5); padding: 20px; border-radius: 10px;">
+                <h1>Welcome to WildlifeWeb</h1>
+                <p>This platform allows people from all over the nation to engage in local wildlife by uploading and discovering sightings.</p>
+                <p>By uploading your sightings, you're contributing to science! The more data we have, the better understanding of our natural environment.</p>
+                <p>WildlifeWeb aims to support citizen science efforts, especially in urban areas, and increase awareness of wildlife among the public. Together, we can make a significant impact on understanding and preserving our local ecosystems.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="features">
+        <div class="feature-box">
+            <img src="{{ url_for('static', filename='ppl3.jpg') }}" alt="Feature Image">
+            <div class="feature-content">
+                <h2>Discover</h2>
+                <p>On the Discover tab, you can explore a massive collection of sightings provided by like-minded nature enthusiasts. Learn about different wildlife spotted in your area and expand your knowledge about various species. Our database is continuously updated with the latest sightings, making it a great resource for wildlife enthusiasts and researchers alike.</p>
+                <a href="{{ url_for('discover_main') }}" class="btn btn-1">Explore Discover</a>
+            </div>
+        </div>
+
+        <div class="feature-box">
+            <img src="{{ url_for('static', filename='sq3.jpg') }}" alt="Upload Image">
+            <div class="feature-content">
+                <h2>Upload</h2>
+                <p>Share your sightings of animals or beautiful landscapes with the community. By uploading your observations, you contribute valuable data that helps scientists track and study wildlife trends. Your participation is crucial in enhancing our collective understanding of urban wildlife and natural environments.</p>
+                <a href="{{ url_for('upload') }}" class="btn btn-1">Upload Sightings</a>
+            </div>
+        </div>
+
+        <div class="feature-box">
+            <img src="{{ url_for('static', filename='walk.jpg') }}" alt="Walk Image">
+            <div class="feature-content">
+                <h2>Walk</h2>
+                <p>Discover a vast range of beautiful nature walks shared by other enthusiasts. These walks provide an opportunity to immerse yourself in nature, observe wildlife in their natural habitats, and enjoy the tranquility of the outdoors. Whether you're looking for a short stroll or a longer hike, our collection has something for everyone.</p>
+                <a href="{{ url_for('walk') }}" class="btn btn-1">Discover Walks</a>
+            </div>
+        </div>
+    </div>
+
+    <style>
+
+        .btn-1 {
+            background-color: #4CAF50; /* Green color */
+            color: white; /* Text color */
+            border: none; /* No border */
+            padding: 10px 20px; /* Padding around text */
+            text-align: center; /* Center text */
+            text-decoration: none; /* No underline */
+            display: inline-block; /* Line up with other inline or inline-block elements */
+            font-size: 16px; /* Text size */
+            cursor: pointer; /* Pointer cursor on hover */
+            border-radius: 5px; /* Rounded corners */
+        }
+        
+        .btn-1:hover {
+            background-color: #3e8e41; /* Darker shade of green */
+            color: white; /* Text color */
+    
+        }
+
+    </style>
+{% endblock %}

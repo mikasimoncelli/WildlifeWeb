@@ -1,0 +1,261 @@
+{% extends "base.html" %}
+
+{% block title %}WildlifeWeb - Upload{% endblock %}
+
+{% block content %}
+<div class="upload-container">
+    <div class="upload-box">
+        {% if not temp_image_url %}
+
+        <h1>Upload Your Nature Spottings</h1>
+        <p>Share your images and location of nature sightings.</p>
+        {% if message %}
+        <div class="alert alert-warning custom-alert" role="alert">
+            <h4>Please <a href="{{ url_for('login') }}" class="login-link">login</a> first.</h4>
+        </div>
+        {% endif %}
+        {% if message2 %}
+        <h4>Incorrect file type, please use JPG, JPEG, PNG, WEBP, or GIF.</h4>
+        {% endif %}
+
+        <form action="/upload" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <div class="text-center">
+                    <label for="imageUpload" class="custom-file-upload">
+                        Choose File
+                    </label>
+                </div>
+                <input type="file" id="imageUpload" name="image">
+                <button class="radbro" type="submit">Upload</button>
+            </div>
+        </form>
+
+        {% endif %}
+
+        {% if temp_image_url %}
+        <div class="prediction-result">
+            <h4>We think this animal is...</h4>
+            <h3>{{ common_name }}</h3>
+            {% if scientific_name %}
+            <h3>Scientific Name: {{ scientific_name }}</h3>
+            {% endif %}
+            <p>{{ species_description }}</p>
+            <img src="{{ temp_image_url }}" alt="Uploaded Image" style="max-width:100%; height:auto;">
+            <br>
+            <h3>Upload Your Image?</h3>
+            <h4> To upload your image, please enter the location it was sighted.</h4>
+            <p>Use current location:</p>
+            <button class="btn-1" type="button" onclick="getLocation()">Use Current Location</button>
+            <p>Search for location:</p>
+            <input id="placeSearch" type="text" placeholder="Search for places..." style="margin-bottom: 10px;">
+            <p>Choose on map:</p>
+            <div id="map" style="height: 400px; width: 100%;"></div>
+
+            <div id="location-details" class="location-details" style="margin-top: 20px; display: none;">
+                <h4>Selected Location:</h4>
+                <p id="selected-location"></p>
+                <h4>Species:</h4>
+                <p id="common-name">{{ common_name }} {% if scientific_name %} ( {{ scientific_name }} ) {% endif %} </p>
+            </div>
+
+
+            <form id="confirmUploadForm" action="/confirm_upload" method="post" style="margin-top: 20px;">
+                <input type="hidden" name="image_path" value="{{ temp_image_path }}">
+                <input type="hidden" name="species_description" value="{{ species_description }}">
+                <input type="hidden" name="predicted_label" value="{{ prediction }}">
+                <input type="hidden" id="latitude" name="latitude">
+                <input type="hidden" id="longitude" name="longitude">
+                <p for="description">Please describe the location of this sighting:</p>
+                <input type="text" id="locationName" name="locationName" placeholder="Location name">
+                
+                <p for="description">Add a Description of your sighting: (Optional)</p>
+                <input type="text" id="description" name="description" placeholder="Add a description (Optional)">
+                <p id="errorMessage" style="color: red; display: none;">Please select and describe the location of sighting.</p>
+
+                <button class="btn-1" type="submit">Confirm Upload</button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+</div>
+<br><br>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC1vhYZf5T6VR7JNAJNuda1LgjeP7VSw4&libraries=places&callback=initMap"></script>
+<script>
+    let map;
+    let markers = [];
+
+    window.onload = function() {
+        initMap();
+        document.getElementById('confirmUploadForm').addEventListener('submit', validateForm);
+    };
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+
+    function showPosition(position) {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+        document.getElementById('latitude').value = lat;
+        document.getElementById('longitude').value = lng;
+
+        map.setCenter({ lat: lat, lng: lng });
+        map.setZoom(15); 
+        clearMarkers();
+        addMarker({ lat: lat, lng: lng });
+
+        updateLocationDetails(lat, lng);
+    }
+
+    function showError(error) {
+        switch (error.code) {
+            case error.PERMISSION_DENIED:
+                alert("User denied the request for Geolocation.");
+                break;
+            case error.POSITION_UNAVAILABLE:
+                alert("Location information is unavailable.");
+                break;
+            case error.TIMEOUT:
+                alert("The request to get user location timed out.");
+                break;
+            case error.UNKNOWN_ERROR:
+                alert("An unknown error occurred.");
+                break;
+        }
+    }
+
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 12, 
+            center: { lat: 51.4545, lng: -2.5879 }, 
+        });
+    
+        const input = document.getElementById('placeSearch');
+        const searchBox = new google.maps.places.SearchBox(input);
+    
+        searchBox.addListener('places_changed', function() {
+            const places = searchBox.getPlaces();
+    
+            if (places.length == 0) {
+                return;
+            }
+    
+            clearMarkers();
+    
+            const bounds = new google.maps.LatLngBounds();
+            places.forEach((place) => {
+                if (!place.geometry || !place.geometry.location) return;
+    
+                document.getElementById('latitude').value = place.geometry.location.lat();
+                document.getElementById('longitude').value = place.geometry.location.lng();
+    
+                addMarker(place.geometry.location);
+    
+                if (place.geometry.viewport) {
+                    bounds.union(place.geometry.viewport);
+                } else {
+                    bounds.extend(place.geometry.location);
+                }
+            });
+            map.fitBounds(bounds);
+    
+            if (places[0]) {
+                updateLocationDetails(places[0].geometry.location.lat(), places[0].geometry.location.lng());
+            }
+        });
+    
+        map.addListener('click', function(e) {
+            clearMarkers();
+            addMarker(e.latLng);
+            document.getElementById('latitude').value = e.latLng.lat();
+            document.getElementById('longitude').value = e.latLng.lng();
+            updateLocationDetails(e.latLng.lat(), e.latLng.lng());
+        });
+    }
+    
+
+    function addMarker(location) {
+        const marker = new google.maps.Marker({
+            position: location,
+            map: map,
+            draggable: true,
+        });
+        markers.push(marker);
+    }
+
+    function clearMarkers() {
+        markers.forEach(marker => marker.setMap(null));
+        markers = [];
+    }
+
+    function updateLocationDetails(lat, lng) {
+        const locationDetailsDiv = document.getElementById('location-details');
+        const locationText = document.getElementById('selected-location');
+
+        const geocoder = new google.maps.Geocoder();
+        const latlng = { lat: lat, lng: lng };
+
+        geocoder.geocode({ location: latlng }, function(results, status) {
+            if (status === 'OK') {
+                if (results[0]) {
+                    let address = results[0].formatted_address;
+                    const addressParts = address.split(',');
+
+                    if (addressParts.length > 1 && addressParts[0].includes('Unnamed')) {
+                        address = addressParts.slice(1).join(',').trim();
+                    }
+
+                    locationText.textContent = address;
+                    locationDetailsDiv.style.display = 'block';
+                } else {
+                    locationText.textContent = 'No results found';
+                }
+            } else {
+                locationText.textContent = 'Geocoder failed due to: ' + status;
+            }
+        });
+    }
+
+    function validateForm(event) {
+        const locationName = document.getElementById('locationName').value;
+        const latitude = document.getElementById('latitude').value;
+        const longitude = document.getElementById('longitude').value;
+        const errorMessage = document.getElementById('errorMessage');
+
+        if (!locationName || !latitude || !longitude) {
+            event.preventDefault();
+            errorMessage.style.display = 'block';
+        } else {
+            errorMessage.style.display = 'none';
+        }
+    }
+</script>
+
+<style>
+.custom-file-upload {
+    display: inline-block;
+    padding: 10px 20px;
+    cursor: pointer;
+    border: 2px solid #4CAF50;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.custom-file-upload:hover {
+    background-color: #3e8e41;
+}
+
+#imageUpload {
+    display: none;
+}
+</style>
+
+{% endblock %}

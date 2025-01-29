@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="center-container">
+    <div class="login-box">
+        <div style="background-color: #ffffff; padding: 20px; border: 1px solid #ddd;">
+            <p>Welcome, please login below or click the button to register:</p>
+
+            <form action="/login" method="post"> 
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button class="green-button" type="submit">Login</button>
+            </form>
+
+            <form action="/register" method="get">
+                <button class="green-button" type="submit">Register</button>
+            </form>
+        </div>
+    </div>
+</div>
+<style>
+    .green-button {
+        background-color: #4CAF50; /* Green color */
+        color: white; /* White text color */
+        padding: 10px 20px; /* Padding around text */
+        border: none; /* No border */
+        text-align: center; /* Center text */
+        text-decoration: none; /* No underline */
+        display: inline-block; /* Line up with other inline or inline-block elements */
+        font-size: 16px; /* Text size */
+        cursor: pointer; /* Pointer cursor on hover */
+        border-radius: 5px; /* Rounded corners */
+        transition: background-color 0.3s; /* Smooth transition for hover effect */
+    }
+
+    .green-button:hover {
+        background-color: #3e8e41; /* Darker shade of green on hover */
+    }
+</style>
+{% endblock %}

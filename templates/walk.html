@@ -1,0 +1,287 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+
+    <div class="card text-center shadow-lg p-3 mb-5 bg-white rounded">
+        <div class="card-body">
+    <h1 class="text-center">Nature Walks - Discover the Best Paths in Your Area</h1>
+    <h6 class="text-center">Explore various species along scenic trails. Find paths to sight animals and immerse yourself in nature.</h6>
+</div>
+</div>
+    <h5 class="text-center">Please select your city below!</h5>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <select class="form-control" name="activity">
+                        <option value="walk">Bristol</option>
+                    </select>
+                    <div class="input-group-append">
+                        <span class="input-group-text">
+                            <i class="fas fa-chevron-down"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p class="text-center">
+        Can't find your city listed? Don't worry! Soon there will be more to discover.
+        <p class="text-center">
+            Sometimes Google Maps does not load the correct path, therefore please learn how to use KML files <a href="{{ url_for('klm_info') }}" class="suggestion-link">here</a>.
+        </p>
+    </p>
+    <br>
+    <div class="animal-section text-center">
+        <h3>Red Deer and Fallow Deer</h3>
+        <h4>Ashton Court - BS3 8HY</h4>
+        <br>
+        <div class="row justify-content-center">
+            <div class="col-md-3">
+                <img src="static/uploads/fallow-deer-rutting_1445x.jpg.webp" alt="Red Deer" class="img-fluid">
+            </div>
+            <div class="col-md-3">
+                <div id="map1" class="small-map-container"></div>
+            </div>
+            <div class="col-md-6">
+                <p>Red Deer are found in woodland areas and are known for their impressive antler size.</p>
+                <p>Ashton Court Estate is a beautiful green space which contains lots of deer, including both Red deer and Fallow deer.</p>
+                <p>If traveling by car, park at the Ashton Court Mansion Car Park. Begin walking North East across the green, before turning left and heading towards the South West of the park.</p>
+                <div class="link-group d-flex justify-content-center">
+                    <a href="static/klm/deer_route.klm" class="btn btn-secondary flex-fill mx-1" download="Deer_Walk.kml">Download Deer Walk KML</a>
+                    <a href="https://www.google.com/maps/dir/?api=1&origin=51.4452289,-2.6360591&destination=51.4452289,-2.6360591&travelmode=walking&waypoints=51.4485187,-2.6306947|51.451247,-2.6368752|51.4469678,-2.6469174|51.4457292,-2.6456052|51.4432416,-2.6501328|51.4419056,-2.6482346" class="btn btn-1 flex-fill mx-1" target="_blank">Open Deer Walk in Google Maps</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="animal-section text-center">
+        <h3>Falcon</h3>
+        <h4>Avon River - BS2 4FG</h4>
+        <br>
+        <div class="row justify-content-center">
+            <div class="col-md-3">
+                <img src="static/Birds-Goshawk-Alamy-.png" alt="Falcon" class="img-fluid">
+            </div>
+            <div class="col-md-3">
+                <div id="mapFalcon" class="small-map-container"></div>
+            </div>
+            <div class="col-md-6">
+                <p>Falcons are known for their incredible speed and agility in the air.</p>
+                <p>The Avon River provides an ideal habitat for these magnificent birds, offering plenty of open space for them to hunt and nest.</p>
+                <p>If traveling by car, park near the Avon River car park. Begin your walk along the riverbank, moving northward before looping back along the opposite bank.</p>
+                <div class="link-group d-flex justify-content-center">
+                    <a href="static/klm/falcon_route.klm" class="btn btn-secondary flex-fill mx-1" download="Falcon_Walk.kml">Download Falcon Walk KML</a>
+                    <a href="https://www.google.com/maps/dir/?api=1&origin=51.4619997,-2.6332849&destination=51.4619997,-2.6332849&travelmode=walking&waypoints=51.4667321,-2.6348298|51.4687104,-2.6417392|51.4659567,-2.6434129|51.4633901,-2.6435416" class="btn btn-1 flex-fill mx-1" target="_blank">Open Falcon Walk in Google Maps</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="animal-section text-center">
+        <h3>Robin</h3>
+        <h4>The Downs - BS1 7JG</h4>
+        <br>
+        <div class="row justify-content-center">
+            <div class="col-md-3">
+                <img src="static/robin.jpeg" alt="Robins" class="img-fluid">
+            </div>
+            <div class="col-md-3">
+                <div id="mapRobins" class="small-map-container"></div>
+            </div>
+            <div class="col-md-6">
+                <p>Robins are small, colorful birds that are often seen hopping around gardens and parks.</p>
+                <p>The Downs is a large open space that provides an excellent habitat for Robins, with plenty of trees and shrubs for them to nest in.</p>
+                <p>If traveling by car, park at the designated Downs car park. Start your walk heading west through the park, looping around the central area before returning to the car park.</p>
+                <div class="link-group d-flex justify-content-center">
+                    <a href="static/klm/robin_route.klm" class="btn btn-secondary flex-fill mx-1" download="Robins_Walk.kml">Download Robin Walk KML</a>
+                    <a href="https://www.google.com/maps/dir/?api=1&origin=51.4725195,-2.6208922&destination=51.4725195,-2.6208922&travelmode=walking&waypoints=51.4706215,-2.6292177|51.4686165,-2.6269432|51.4661836,-2.6289173|51.4647132,-2.6279303|51.4634566,-2.6262137|51.4658094,-2.6214071|51.4677343,-2.6223084|51.469766,-2.6187035" class="btn btn-1 flex-fill mx-1" target="_blank">Open Robin Walk in Google Maps</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="animal-section text-center">
+        <h3>Muntjac</h3>
+        <h4>Stoke Park Estate - BS6 9AB</h4>
+        <br>
+        <div class="row justify-content-center">
+            <div class="col-md-3">
+                <img src="static/Young-Muntjac-Deer-By-Stephan-MorrisWEB.jpg.webp" alt="Muntjac" class="img-fluid">
+            </div>
+            <div class="col-md-3">
+                <div id="mapMuntjac" class="small-map-container"></div>
+            </div>
+            <div class="col-md-6">
+                <p>Muntjac deer are small and shy, often found in dense woodland areas.</p>
+                <p>Stoke Park Estate offers a serene environment where Muntjac deer can be spotted among the trees and bushes.</p>
+                <p>If traveling by car, park at the Stoke Park Estate car park. Begin your walk heading east through the woodland, circling around the main estate area before heading back.</p>
+                <div class="link-group d-flex justify-content-center">
+                    <a href="static/klm/muntjac_route.klm" class="btn btn-secondary flex-fill mx-1" download="Muntjac_Walk.kml">Download Muntjac Walk KML</a>
+                    <a href="https://www.google.com/maps/dir/?api=1&origin=51.4943719,-2.5457156&destination=51.4943719,-2.5457156&travelmode=walking&waypoints=51.4927153,-2.547561|51.4909517,-2.5521529|51.4909785,-2.5548137|51.4893752,-2.5554145|51.4885201,-2.5565732|51.4898027,-2.5585473|51.4870503,-2.561251|51.4854469,-2.5619805|51.4876917,-2.557689|51.4875313,-2.5545991|51.4888942,-2.551123|51.4899898,-2.5482906" class="btn btn-1 flex-fill mx-1" target="_blank">Open Muntjac Walk in Google Maps</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function getCenterOfCoordinates(coords) {
+        let latSum = 0, lngSum = 0;
+        coords.forEach(coord => {
+            latSum += coord.lat;
+            lngSum += coord.lng;
+        });
+        return { lat: latSum / coords.length, lng: lngSum / coords.length };
+    }
+
+    function initMap() {
+        const redDeerCoords = [
+            {"lat": 51.4452289,"lng": -2.6360591},{"lat": 51.4485187,"lng": -2.6306947},
+            {"lat": 51.451247,"lng": -2.6368752},{"lat": 51.4469678,"lng": -2.6469174},
+            {"lat": 51.4457292,"lng": -2.6456052},{"lat": 51.4432416,"lng": -2.6501328},
+            {"lat": 51.4419056,"lng": -2.6482346},{"lat": 51.4452289,"lng": -2.6360591}
+        ];
+        const map1 = new google.maps.Map(document.getElementById('map1'), {
+            zoom: 14,
+            center: getCenterOfCoordinates(redDeerCoords),
+            disableDefaultUI: true
+        });
+        const walkPath1 = new google.maps.Polyline({
+            path: redDeerCoords,
+            geodesic: true,
+            strokeColor: 'green',
+            strokeOpacity: 1.0,
+            strokeWeight: 3
+        });
+        walkPath1.setMap(map1);
+
+        const falconCoords = [
+            {"lat": 51.4619997, "lng": -2.6332849},{"lat": 51.4667321, "lng": -2.6348298},
+            {"lat": 51.4687104, "lng": -2.6417392},{"lat": 51.4659567, "lng": -2.6434129},
+            {"lat": 51.4633901, "lng": -2.6435416},{"lat": 51.4619997, "lng": -2.6332849}
+        ];
+        const mapFalcon = new google.maps.Map(document.getElementById('mapFalcon'), {
+            zoom: 14,
+            center: getCenterOfCoordinates(falconCoords),
+            disableDefaultUI: true
+        });
+        const walkPathFalcon = new google.maps.Polyline({
+            path: falconCoords,
+            geodesic: true,
+            strokeColor: 'green',
+            strokeOpacity: 1.0,
+            strokeWeight: 3
+        });
+        walkPathFalcon.setMap(mapFalcon);
+
+        const robinsCoords = [
+            {"lat": 51.4725195, "lng": -2.6208922},{"lat": 51.4706215, "lng": -2.6292177},
+            {"lat": 51.4686165, "lng": -2.6269432},{"lat": 51.4661836, "lng": -2.6289173},
+            {"lat": 51.4647132, "lng": -2.6279303},{"lat": 51.4634566, "lng": -2.6262137},
+            {"lat": 51.4658094, "lng": -2.6214071},{"lat": 51.4677343, "lng": -2.6223084},
+            {"lat": 51.469766, "lng": -2.6187035},{"lat": 51.4725195, "lng": -2.6208922}
+        ];
+        const mapRobins = new google.maps.Map(document.getElementById('mapRobins'), {
+            zoom: 14,
+            center: getCenterOfCoordinates(robinsCoords),
+            disableDefaultUI: true
+        });
+        const walkPathRobins = new google.maps.Polyline({
+            path: robinsCoords,
+            geodesic: true,
+            strokeColor: 'green',
+            strokeOpacity: 1.0,
+            strokeWeight: 3
+        });
+        walkPathRobins.setMap(mapRobins);
+
+        const muntjacCoords = [
+            {"lat": 51.4943719, "lng": -2.5457156},{"lat": 51.4927153, "lng": -2.547561},
+            {"lat": 51.4909517, "lng": -2.5521529},{"lat": 51.4909785, "lng": -2.5548137},
+            {"lat": 51.4893752, "lng": -2.5554145},{"lat": 51.4885201, "lng": -2.5565732},
+            {"lat": 51.4898027, "lng": -2.5585473},{"lat": 51.4870503, "lng": -2.561251},
+            {"lat": 51.4854469, "lng": -2.5619805},{"lat": 51.4876917, "lng": -2.557689},
+            {"lat": 51.4875313, "lng": -2.5545991},{"lat": 51.4888942, "lng": -2.551123},
+            {"lat": 51.4899898, "lng": -2.5482906},{"lat": 51.4943719, "lng": -2.5457156}
+        ];
+        const mapMuntjac = new google.maps.Map(document.getElementById('mapMuntjac'), {
+            zoom: 14,
+            center: getCenterOfCoordinates(muntjacCoords),
+            disableDefaultUI: true
+        });
+        const walkPathMuntjac = new google.maps.Polyline({
+            path: muntjacCoords,
+            geodesic: true,
+            strokeColor: 'green',
+            strokeOpacity: 1.0,
+            strokeWeight: 3
+        });
+        walkPathMuntjac.setMap(mapMuntjac);
+    }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC1vhYZf5T6VR7JNAJNuda1LgjeP7VSw4&callback=initMap"></script>
+
+<style>
+    .container {
+        max-width: 1200px;
+        margin: auto;
+    }
+    .animal-section {
+        margin-bottom: 40px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #ccc;
+    }
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .col-md-3, .col-md-6 {
+        flex: 0 0 auto;
+    }
+    .small-map-container {
+        height: 300px;
+        width: 100%;
+    }
+    .img-fluid {
+        height: 300px; /* Set a fixed height for the images to match the maps */
+        width: 100%; /* Make the image responsive */
+        object-fit: cover; /* Cover the area of the box without distorting the aspect ratio, cropping if necessary */
+    }
+    .link-group {
+        margin-top: 15px;
+    }
+    .link-group .btn {
+        margin-right: 10px;
+    }
+
+    .btn-1 {
+        background-color: #4CAF50; /* Green color */
+        color: white; /* Text color */
+        border: none; /* No border */
+        padding: 10px 20px; /* Padding around text */
+        text-align: center; /* Center text */
+        text-decoration: none; /* No underline */
+        display: inline-block; /* Line up with other inline or inline-block elements */
+        font-size: 16px; /* Text size */
+        cursor: pointer; /* Pointer cursor on hover */
+        border-radius: 5px; /* Rounded corners */
+    }
+    
+    .btn-1:hover {
+        background-color: #3e8e41; /* Darker shade of green */
+        color: white; /* Text color */
+
+    }
+</style>
+
+{% endblock %}

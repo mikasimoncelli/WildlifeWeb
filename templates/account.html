@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .profile-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+    .profile-picture {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin: 10px auto;
+    }
+    .btn-1, .btn-primary {
+        background-color: #4CAF50; /* Green color */
+        color: white; /* Text color */
+        border: none; /* No border */
+        padding: 10px 20px; /* Padding around text */
+        text-align: center; /* Center text */
+        text-decoration: none; /* No underline */
+        display: inline-block; /* Line up with other inline or inline-block elements */
+        font-size: 16px; /* Text size */
+        cursor: pointer; /* Pointer cursor on hover */
+        border-radius: 5px; /* Rounded corners */
+        margin-top: 10px; /* Margin for spacing */
+    }
+    .btn-1:hover, .btn-primary:hover {
+        background-color: #3e8e41; /* Darker shade of green */
+    }
+    .form-container {
+        margin-top: 20px;
+    }
+    .form-container input[type="file"] {
+        display: inline-block;
+    }
+    .sightings-feed {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .sightings-feed h1, .sightings-feed h4 {
+        color: #2c3e50;
+    }
+    .sightings-feed p a {
+        color: #007bff;
+        text-decoration: none;
+    }
+    .sightings-feed p a:hover {
+        text-decoration: underline;
+    }
+</style>
+<div class="sightings-feed">
+    {% if user_details %}
+        <div class="profile-container">
+            <h1>Welcome {{ user_details.FirstName }} {{ user_details.Surname }}</h1>
+            <h4>Username: {{ user_details.Username }}</h4>
+            <h4><strong>Email:</strong> {{ user_details.Email }}</h4>
+            {% if user_details.ProfilePicture %}
+            <img src="{{ url_for('static', filename='profilepictures/' ~ user_details['ProfilePicture']) }}" alt="Profile Picture" class="profile-picture" id="profile-picture-preview">
+
+            {% endif %}
+            <br><br>
+            <p><a href="{{ url_for('edit_details') }}" class="btn btn-1" style="color: white; width: 200px;">Edit Details?</a></p>
+        </div>
+    {% else %}
+        <p>Please log in to view this page.</p>
+    {% endif %}
+    <p><a href="{{ url_for('logout') }}" class="btn btn-1" style="color: white; width: 200px;">Logout</a></p>
+</div>
+{% endblock %}

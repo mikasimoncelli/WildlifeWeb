@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    {% for sighting in sightings %}
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="d-flex mb-3">
+                {% if sighting.ProfilePicture %}
+                <img src="{{ url_for('static', filename='profilepictures/' ~ sighting.ProfilePicture) }}" alt="Profile Picture" class="profile-picture">
+                {% else %}
+                <img src="{{ url_for('static', filename='user.png') }}" alt="Profile Picture" class="profile-picture">
+                {% endif %}
+                <div class="ml-3">
+                    <strong>{{ sighting.Username }}</strong>
+                    <div class="text-muted">
+                        <small>{{ sighting.Timestamp.strftime("%B %d, %Y") }}</small>
+                    </div>
+                </div>
+            </div>
+            <p>{{ sighting.Description }}</p>
+            <h1 class="card-title" style="font-size: medium;">
+                <strong>{{ sighting.CommonName }}
+                    {% if sighting.CommonName != sighting.ScientificName %}
+                        ({{ sighting.ScientificName }})
+                    {% endif %}
+                </strong>
+            </h1>            <a href="{{ url_for('more_info', focus_id=sighting.SpeciesID) }}" class="btn btn-outline-primary">
+                Find out more
+            </a>
+        </div>
+        <div class="img-container">
+            <a href="#" onclick="openImageModal('{{ sighting.ImagePath }}', '{{ sighting.CommonName }}')">
+                <img src="{{ sighting.ImagePath }}" alt="{{ sighting.CommonName }}" class="card-img-top">
+            </a>
+        </div>
+        <div class="card-body">
+            <div class="d-flex justify-content-between text-center">
+                <div class="like-section">
+                    <button onclick="toggleLikeSighting('{{ sighting.SightingID }}', this)" class="btn {{ 'btn-primary' if sighting.liked else 'btn-outline-primary' }} like-button">Like</button>
+                    <svg class="heart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24px" height="24px">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="none" stroke="#d32f2f" stroke-width="2"/>
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#d32f2f" style="display:none;"/>
+                    </svg>
+                    <span id="like-count-{{ sighting.SightingID }}">{{ sighting.like_count }}</span>
+                </div>
+                <a href="{{ url_for('map_view', focus_id=sighting.SightingID) }}" class="btn btn-outline-primary">
+                    View on Map
+                </a>
+                <a href="{{ url_for('species_view', species_id=sighting.SpeciesID) }}" class="btn btn-outline-primary">
+                    View Species
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="imageModalLabel"></h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center"> 
+        <img id="modalImage" src="" alt="Enlarged Image" class="img-fluid">
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+    .profile-picture {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin: 4px;
+    }
+
+    .img-container {
+        max-height: 300px;
+        overflow: hidden;
+        margin-bottom: 15px; /* Increase the gap between image and card content */
+    }
+
+    .card-img-top {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        cursor: pointer; /* Change cursor to pointer for clickable effect */
+    }
+
+    .card {
+        max-width: 700px; /* Adjusted width */
+        margin: auto;
+        border: 2px solid #dee2e6; /* Thicker border */
+    }
+
+    .like-button {
+        width: 80px; /* Explicit width to keep size consistent */
+        height: 38px; /* Explicit height to keep size consistent */
+        padding: 6px 12px; /* Set padding */
+        line-height: 1.5; /* Set line-height */
+        transition: none; /* Disable transition to keep size consistent */
+    }
+
+    .like-button.btn-primary {
+        background-color: #007bff; /* Bootstrap primary color */
+        border-color: #007bff; /* Bootstrap primary color */
+    }
+
+    .modal-body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    function toggleLikeSighting(sightingId, element) {
+        const isLiked = element.classList.contains('btn-primary');
+        const url = isLiked ? `/unlike_sighting/${sightingId}` : `/like_sighting/${sightingId}`;
+        
+        fetch(url, { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById(`like-count-${sightingId}`).textContent = data.like_count;
+                    element.classList.toggle('btn-primary');
+                    element.classList.toggle('btn-outline-primary');
+
+                    element.style.width = '80px';
+                    element.style.height = '38px';
+                    element.style.padding = '6px 12px';
+                    element.style.lineHeight = '1.5';
+                } else {
+                    alert(data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error toggling the like status of the sighting:', error);
+            });
+    }
+
+    function openImageModal(imagePath, commonName) {
+        console.log('Opening image modal for:', imagePath, 'with name:', commonName); 
+        document.getElementById('modalImage').src = imagePath;
+        document.getElementById('imageModalLabel').innerText = commonName;
+        $('#imageModal').modal('show');
+    }
+</script>
+
+{% endblock %}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Deer Walk</name>
+    <Placemark>
+      <name>Walk Path</name>
+      <LineString>
+        <coordinates>
+          -2.6360591,51.4452289,0
+          -2.6306947,51.4485187,0
+          -2.6368752,51.451247,0
+          -2.6469174,51.4469678,0
+          -2.6456052,51.4457292,0
+          -2.6501328,51.4432416,0
+          -2.6482346,51.4419056,0
+          -2.6360591,51.4452289,0
+        </coordinates>
+      </LineString>
+    </Placemark>
+  </Document>
+</kml>

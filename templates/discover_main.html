@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Welcome to WildlifeWeb</h1>
+    <p>Explore the exciting world of wildlife sightings in your area and beyond. Discover new species, learn about their habitats, and share your findings with our community.</p>
+    
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="content-box">
+                <h2>Recent Sightings</h2>
+                <p>Check out the latest sightings of animals uploaded by our users. Get real-time updates and see what others are spotting in their adventures.</p>
+                <a href="{{ url_for('sightings_feed') }}" class="btn btn-primary">Visit News Feed</a>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="content-box">
+                <h2>Species Gallery</h2>
+                <p>View a gallery of all animals seen on our site. Dive into the diverse wildlife that our community has documented.</p>
+                <a href="{{ url_for('discover_gallery') }}" class="btn btn-primary">Explore Gallery</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="content-box">
+                <h2>Common Species</h2>
+                <p>Learn about the most frequently seen species in different areas. Find out where to spot these animals and learn about their characteristics.</p>
+                <a href="{{ url_for('common_species') }}" class="btn btn-primary">View Common Species</a>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="content-box">
+                <h2>Map View</h2>
+                <p>Explore sightings from around the world on our interactive map. Click on sightings to learn more about each one and discover new places to visit.</p>
+                <a href="{{ url_for('map_view') }}" class="btn btn-primary">Go to Map View</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f9f9f9;
+        color: #333;
+    }
+    h1, h2 {
+        color: #2c3e50;
+    }
+    .container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 20px;
+    }
+    .content-box {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+    .btn-primary {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+    .btn-primary:hover {
+        background-color: #3e8e41;
+    }
+</style>
+{% endblock %}

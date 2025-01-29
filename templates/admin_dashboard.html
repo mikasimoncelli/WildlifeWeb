@@ -1,0 +1,72 @@
+{% extends "admin_base.html" %}
+
+{% block content %}
+
+<div class="text-center">
+    <br>
+    <p>Welcome to the Admin Dashboard!</p>
+</div>
+<div class="dashboard-container">
+    <div class="stat-box">
+        <h3>Total Users</h3>
+        <p id="total-users">{{ stats.total_users }}</p>
+    </div>
+    <div class="stat-box">
+        <h3>Active Users</h3>
+        <p id="active-users">{{ stats.active_users }}</p>
+    </div>
+    <div class="stat-box">
+        <h3>New Registrations</h3>
+        <p id="new-registrations">{{ stats.new_registrations }}</p>
+    </div>
+    <div class="stat-box">
+        <h3>Total Species</h3>
+        <p id="total-species">{{ stats.total_species }}</p>
+    </div>
+    <div class="stat-box">
+        <h3>Total Sightings</h3>
+        <p id="total-sightings">{{ stats.total_sightings }}</p>
+    </div>
+    <div class="stat-box">
+        <h3>Total Cities</h3>
+        <p id="total-cities">{{ stats.total_cities }}</p>
+    </div>
+</div>
+<br>
+<div class="text-center">
+    <h2>View Sighting Data</h2>
+    <br>
+    {{ graph_html|safe }}
+</div>
+<style>
+    /* styles.css */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        color: #333;
+    }
+    .dashboard-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin-top: 20px;
+        padding: 0 20px; /* Add padding from the sides */
+    }
+    .stat-box {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+    .stat-box h3 {
+        color: #555;
+    }
+    .stat-box p {
+        font-size: 24px;
+        margin: 20px 0;
+        color: #007BFF;
+    }
+</style>
+{% endblock %}

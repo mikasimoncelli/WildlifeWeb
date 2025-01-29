@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <br>
+    <h1 class="text-center">How to Use KML Files on Google Maps</h1>
+    <p class="text-center">Follow these steps to import and use KML files with Google My Maps and Google Maps.</p>
+    <br>
+
+    <div class="step">
+        <h3>Step 1: Download the KML File</h3>
+        <p>Click on the provided KML file link to download the file onto your device. The file should be saved in your "Downloads" folder or a location you choose.</p>
+    </div>
+
+    <div class="step">
+        <h3>Step 2: Open Google My Maps</h3>
+        <p>Go to <a href="https://www.google.com/mymaps" target="_blank">Google My Maps</a> on your web browser. Sign in with your Google account if you haven't already.</p>
+        <img src="static/klm_tutorial/step2.png" alt="Google My Maps Home" class="img-fluid">
+    </div>
+
+    <div class="step">
+        <h3>Step 3: Create a New Map</h3>
+        <p>Click on the "Create a new map" button.</p>
+        <img src="static/klm_tutorial/step3.png" alt="Create a new map" class="img-fluid">
+    </div>
+
+    <div class="step">
+        <h3>Step 4: Import the KML File</h3>
+        <p>In the new map, click on the "Import" button. Then, select the KML file you downloaded in Step 1.</p>
+        <img src="static/klm_tutorial/step4.png" alt="Import KML File" class="img-fluid">
+    </div>
+
+    <div class="step">
+        <h3>Step 5: Save the Map</h3>
+        <p>Once the KML file is imported, you can see the route on the map. Give your map a name by clicking on "Untitled map" and entering a new name. Click "Save" to save your map.</p>
+        <img src="static/klm_tutorial/step5.png" alt="Save the map" class="img-fluid">
+    </div>
+
+    <div class="step">
+        <h3>Step 6: Open the Map in Google Maps</h3>
+        <p>Open the Google Maps app on your mobile device. Tap on the menu icon (three horizontal lines) in the top-left corner, then go to "Your places" -> "Maps". You should see the map you created with the imported KML file. Tap on it to view the route.</p>
+        <img src="static/klm_tutorial/step6.png" alt="Google Maps Your Places" class="img-fluid">
+    </div>
+
+    <div class="step">
+        <h3>Step 7: Use the Map for Navigation</h3>
+        <p>You can now use the imported map for navigation. Tap on the route or waypoints to get directions and start your walk or drive along the specified path.</p>
+    </div>
+
+    <p class="text-center"><a href="{{ url_for('walk') }}" class="btn btn-1">Back to Walk</a></p>
+</div>
+
+<style>
+    .container {
+        max-width: 800px;
+        margin: auto;
+        padding: 20px;
+    }
+    .step {
+        margin-bottom: 40px;
+    }
+    .step img {
+        width: 100%;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 5px;
+        margin-top: 15px;
+    }
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }
+
+    .btn-1 {
+        background-color: #4CAF50; /* Green color */
+        color: white; /* Text color */
+        border: none; /* No border */
+        padding: 10px 20px; /* Padding around text */
+        text-align: center; /* Center text */
+        text-decoration: none; /* No underline */
+        display: inline-block; /* Line up with other inline or inline-block elements */
+        font-size: 16px; /* Text size */
+        cursor: pointer; /* Pointer cursor on hover */
+        border-radius: 5px; /* Rounded corners */
+    }
+    
+    .btn-1:hover {
+        background-color: #3e8e41; /* Darker shade of green */
+        color: white; /* Text color */
+
+    }
+</style>
+
+{% endblock %}

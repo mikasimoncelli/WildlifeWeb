@@ -2,8 +2,7 @@
 
 **WildlifeWeb** is an innovative web platform designed to connect nature enthusiasts, conservationists, and the general public in the collective effort of citizen science. By allowing users to share and discover local wildlife sightings, especially in urban areas, WildlifeWeb fosters awareness and supports biodiversity data collection. With the help of geospatial mapping technologies, machine learning, and community-driven conservation efforts, this platform helps bridge the gap between technology and nature.
 
-![WildlifeWeb Preview](wildlife_image.png)  <!-- Add this line to include your image -->
-
+![WildlifeWeb Preview](Screenshot%202025-01-30%20at%2018.17.30.png)  <!-- Add this line to include your image -->
 ---
 
 ## Features

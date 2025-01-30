@@ -1,5 +1,11 @@
 {% extends "base.html" %}
 
+{% block head %}
+    <link rel="icon" href="{{ url_for('static', filename='logo.png') }}" type="image/png">
+    {{ super() }}
+{% endblock %}
+
+
 {% block content %}
     <div class="welcome-area" style="position: relative; text-align: center; color: white;">
         <img src="{{ url_for('static', filename='owl.jpeg') }}" alt="Nature Image" style="width: 100%; border: 3px solid black;">
@@ -14,6 +20,15 @@
         </div>
     </div>
 
+    <div class="feature-box">
+        <img src="{{ url_for('static', filename='sq3.jpg') }}" alt="Upload Image">
+        <div class="feature-content">
+            <h2>Upload</h2>
+            <p>Share your sightings of animals or beautiful landscapes with the community. By uploading your observations, you contribute valuable data that helps scientists track and study wildlife trends. Your participation is crucial in enhancing our collective understanding of urban wildlife and natural environments.</p>
+            <a href="{{ url_for('upload') }}" class="btn btn-1">Upload Sightings</a>
+        </div>
+    </div>
+    
     <div class="features">
         <div class="feature-box">
             <img src="{{ url_for('static', filename='ppl3.jpg') }}" alt="Feature Image">
@@ -24,14 +39,7 @@
             </div>
         </div>
 
-        <div class="feature-box">
-            <img src="{{ url_for('static', filename='sq3.jpg') }}" alt="Upload Image">
-            <div class="feature-content">
-                <h2>Upload</h2>
-                <p>Share your sightings of animals or beautiful landscapes with the community. By uploading your observations, you contribute valuable data that helps scientists track and study wildlife trends. Your participation is crucial in enhancing our collective understanding of urban wildlife and natural environments.</p>
-                <a href="{{ url_for('upload') }}" class="btn btn-1">Upload Sightings</a>
-            </div>
-        </div>
+
 
         <div class="feature-box">
             <img src="{{ url_for('static', filename='walk.jpg') }}" alt="Walk Image">

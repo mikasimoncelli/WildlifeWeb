@@ -82,7 +82,7 @@
     }
 
     .img-container {
-        max-height: 300px;
+        max-height: 500px;
         overflow: hidden;
         margin-bottom: 15px; /* Increase the gap between image and card content */
     }
@@ -152,7 +152,6 @@
     function openImageModal(imagePath, commonName) {
         console.log('Opening image modal for:', imagePath, 'with name:', commonName); 
         document.getElementById('modalImage').src = imagePath;
-        document.getElementById('imageModalLabel').innerText = commonName;
         $('#imageModal').modal('show');
     }
 </script>

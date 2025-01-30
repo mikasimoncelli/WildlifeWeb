@@ -30,17 +30,11 @@ def allowed_file(filename):
 
 aiplatform.init(project='wildlifeweb', location='europe-west2')
 
-
-
-
-
 model_url = "https://tfhub.dev/google/imagenet/efficientnet_v2_imagenet21k_s/classification/2"
 model = hub.load(model_url)
 
-
 with open('imagenet22k.txt') as f:
     class_labels = json.load(f)
-
 
 
 def load_and_preprocess_image(image_path):
@@ -58,7 +52,6 @@ def predict_image_class(image_path):
     predicted_class_index = np.argmax(predictions, axis=-1)
     predicted_label = class_labels[str(predicted_class_index[0])]
     return predicted_label
-
 
 
 @app.route('/upload', methods=['GET', 'POST'])
@@ -85,12 +78,10 @@ def upload_and_classify_image():
             print(species_description)
             temp_image_url = url_for('static', filename=image_path[7:])  
             
-            
             if common_name==scientific_name:
                 return render_template('upload.html', temp_image_url=temp_image_url, prediction=predicted_label, temp_image_path=image_path, common_name=common_name,species_description=species_description, predicted_label=predicted_label)
 
             else:
-
                 return render_template('upload.html', temp_image_url=temp_image_url, prediction=predicted_label, temp_image_path=image_path, common_name=common_name, scientific_name=scientific_name,species_description=species_description, predicted_label=predicted_label)
 
     return render_template('upload.html', prediction=None)

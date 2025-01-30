@@ -1,1 +1,7 @@
+# Ignore the virtual environment directory
 myenv/
+
+# Ignore large .dylib files in site-packages
+myenv/lib/python3.11/site-packages/numpy/.dylibs/
+myenv/lib/python3.11/site-packages/clang/native/
+myenv/lib/python3.11/site-packages/tensorflow/
